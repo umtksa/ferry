@@ -23,14 +23,13 @@ jobs:
       - name: Scripti Çalıştır
         run: python ferry.py
 
-      - name: Değişiklikleri Kaydet ve Gönder
+            - name: Değişiklikleri Kaydet ve Gönder
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_PAT: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/umtksa/ferry.git
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/umtksa/ferry.git
           git add .
           git commit -m "Güncellenmiş feribot saatleri (Automated)" || exit 0
           git push origin main
-        continue-on-error: true
