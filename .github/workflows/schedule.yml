@@ -1,0 +1,32 @@
+name: Feribot Saatleri Scraper
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Her sabah 08:00 Türkiye saatiyle çalıştır (UTC 05:00)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu Kopyala
+        uses: actions/checkout@v4
+
+      - name: Python'u Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Gerekli Paketleri Kur
+        run: pip install requests beautifulsoup4
+
+      - name: Scripti Çalıştır
+        run: python ferry.py
+
+      - name: Değişiklikleri Kaydet ve Gönder
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Güncellenmiş feribot saatleri (Automated)"
+          git push
+        continue-on-error: true
